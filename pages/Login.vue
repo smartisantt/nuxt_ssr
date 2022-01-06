@@ -56,6 +56,7 @@
 
 <script>
 export default {
+  middleware: 'login',
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: 'normal_login' });
   },
@@ -66,7 +67,9 @@ export default {
         if (!err) {
           try {
             const val = await this.$axios.post('/login', { ...values });
-            console.log(val.data)
+            this.$message.success('登陆成功');
+            this.$store.commit('setUser', val.name);
+            this.$store.commit('setLogin', true);
           } catch (error) {
             this.$message.success(val.msg);
           }
